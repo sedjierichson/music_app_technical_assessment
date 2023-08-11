@@ -43,6 +43,11 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // bottomNavigationBar: BottomAppBar(
+      //   color: Colors.transparent,
+      //   child: Text('bottom screen widget'),
+      //   elevation: 0,
+      // ),
       body: SafeArea(
         child: Center(
           child: Padding(
@@ -72,17 +77,30 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
-                // Expanded(
-                //   child: Column(
-                //     children: [
-                //       ElevatedButton(
-                //         onPressed: getSongList,
-                //         child: Text('Tests'),
-                //       ),
                 Expanded(child: cardSong()),
-                //     ],
-                //   ),
-                // ),
+                Align(
+                  alignment: FractionalOffset.bottomCenter,
+                  child: Container(
+                    decoration: BoxDecoration(color: Colors.grey),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.skip_previous,
+                          size: 50,
+                        ),
+                        Icon(
+                          Icons.play_arrow,
+                          size: 50,
+                        ),
+                        Icon(
+                          Icons.skip_next,
+                          size: 50,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
