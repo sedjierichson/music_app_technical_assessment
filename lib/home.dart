@@ -13,13 +13,14 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   SongServices db = SongServices();
+  TextEditingController tfSearch = TextEditingController();
   List<Song> listSong = [];
   bool isLoadingAll = true;
   bool isErrorAll = false;
 
-  void getSongList() async {
+  void getSongList(String search) async {
     try {
-      listSong = await db.getSong(artist: "new jeans");
+      listSong = await db.getSong(artist: search);
       setState(() {
         isLoadingAll = false;
         isErrorAll = false;
@@ -34,7 +35,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    getSongList();
+    getSongList('justin bieber');
     super.initState();
   }
 
@@ -47,20 +48,37 @@ class _HomePageState extends State<HomePage> {
             padding: EdgeInsets.all(8),
             child: Column(
               children: [
-                SearchBar(
-                  hintText: 'Search Artist',
-                ),
-                Expanded(
-                  child: Column(
-                    children: [
-                      ElevatedButton(
-                        onPressed: getSongList,
-                        child: Text('Tests'),
+                Container(
+                  margin: EdgeInsets.all(10),
+                  child: TextField(
+                    controller: tfSearch,
+                    decoration: InputDecoration(
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            getSongList(tfSearch.text.toString());
+                          });
+                        },
+                        icon: Icon(Icons.search),
                       ),
-                      Expanded(child: cardSong()),
-                    ],
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      labelText: 'Search Artist',
+                    ),
                   ),
                 ),
+                // Expanded(
+                //   child: Column(
+                //     children: [
+                //       ElevatedButton(
+                //         onPressed: getSongList,
+                //         child: Text('Tests'),
+                //       ),
+                Expanded(child: cardSong()),
+                //     ],
+                //   ),
+                // ),
               ],
             ),
           ),
