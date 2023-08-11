@@ -53,6 +53,7 @@ class _HomePageState extends State<HomePage> {
                   child: TextField(
                     controller: tfSearch,
                     decoration: InputDecoration(
+                      floatingLabelBehavior: FloatingLabelBehavior.never,
                       suffixIcon: IconButton(
                         onPressed: () {
                           setState(() {
@@ -61,7 +62,9 @@ class _HomePageState extends State<HomePage> {
                         },
                         icon: Icon(Icons.search),
                       ),
+                      focusColor: Colors.black,
                       border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black),
                         borderRadius: BorderRadius.circular(30),
                       ),
                       labelText: 'Search Artist',
