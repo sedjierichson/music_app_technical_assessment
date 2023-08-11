@@ -17,7 +17,8 @@ class _HomePageState extends State<HomePage> {
   List<Song> listSong = [];
   bool isLoadingAll = true;
   bool isErrorAll = false;
-
+  bool isSelected = false;
+  int indexSelected = 9999;
   void getSongList(String search) async {
     try {
       listSong = await db.getSong(artist: search);
@@ -96,34 +97,46 @@ class _HomePageState extends State<HomePage> {
         scrollDirection: Axis.vertical,
         itemCount: listSong.length,
         itemBuilder: (context, index) {
-          return Card(
-            child: ListTile(
-              leading: Image.network(
-                listSong[index].image.toString(),
-                width: 70,
-                height: 70,
-                fit: BoxFit.fill,
+          return GestureDetector(
+            onTap: () {
+              print('halo');
+              setState(() {
+                indexSelected = index;
+              });
+            },
+            child: Card(
+              child: ListTile(
+                leading: Image.network(
+                  listSong[index].image.toString(),
+                  width: 70,
+                  height: 70,
+                  fit: BoxFit.fill,
+                ),
+                title: Text(
+                  listSong[index].title,
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                subtitle: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(listSong[index].artistName),
+                    Text(listSong[index].album)
+                  ],
+                ),
+                trailing: indexSelected == index
+                    ? Icon(Icons.play_arrow)
+                    : SizedBox(),
+                isThreeLine: true,
               ),
-              title: Text(
-                listSong[index].title,
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              subtitle: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(listSong[index].artistName),
-                  Text(listSong[index].album)
-                ],
-              ),
-              trailing: Icon(Icons.more_vert),
-              isThreeLine: true,
             ),
           );
         },
       );
     } else {
-      return CircularProgressIndicator();
+      return Center(
+        child: CircularProgressIndicator(),
+      );
     }
   }
 }
