@@ -16,6 +16,28 @@ class _HomePageState extends State<HomePage> {
   List<Song> listSong = [];
   bool isLoadingAll = true;
   bool isErrorAll = false;
+
+  void getSongList() async {
+    try {
+      listSong = await db.getSong(artist: "new jeans");
+      setState(() {
+        isLoadingAll = false;
+        isErrorAll = false;
+      });
+    } catch (e) {
+      setState(() {
+        isLoadingAll = false;
+        isErrorAll = true;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    getSongList();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,12 +50,14 @@ class _HomePageState extends State<HomePage> {
                 SearchBar(
                   hintText: 'Search Artist',
                 ),
-                SingleChildScrollView(
+                Expanded(
                   child: Column(
                     children: [
-                      Container(
-                        child: ,
+                      ElevatedButton(
+                        onPressed: getSongList,
+                        child: Text('Tests'),
                       ),
+                      Expanded(child: cardSong()),
                     ],
                   ),
                 ),
@@ -43,5 +67,34 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+
+  Widget cardSong() {
+    if (isLoadingAll == false && isErrorAll == false) {
+      return ListView.builder(
+        scrollDirection: Axis.vertical,
+        itemCount: listSong.length,
+        itemBuilder: (context, index) {
+          return Card(
+            child: ListTile(
+              leading: FlutterLogo(size: 50.0),
+              title: Text(listSong[index].title),
+              subtitle: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(listSong[index].artistName),
+                  Text(listSong[index].album)
+                ],
+              ),
+              trailing: Icon(Icons.more_vert),
+              isThreeLine: true,
+            ),
+          );
+        },
+      );
+    } else {
+      return CircularProgressIndicator();
+    }
   }
 }
