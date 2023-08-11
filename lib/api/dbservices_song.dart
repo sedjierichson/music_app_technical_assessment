@@ -23,6 +23,7 @@ class SongServices {
           title: data[i]['trackName'].toString(),
           artistName: data[i]['artistName'].toString(),
           album: data[i]['collectionName'].toString(),
+          image: data[i]['artworkUrl100'].toString(),
         );
         listSong.add(song);
       }

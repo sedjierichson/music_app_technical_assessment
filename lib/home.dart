@@ -95,8 +95,16 @@ class _HomePageState extends State<HomePage> {
         itemBuilder: (context, index) {
           return Card(
             child: ListTile(
-              leading: FlutterLogo(size: 50.0),
-              title: Text(listSong[index].title),
+              leading: Image.network(
+                listSong[index].image.toString(),
+                width: 70,
+                height: 70,
+                fit: BoxFit.fill,
+              ),
+              title: Text(
+                listSong[index].title,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
               subtitle: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
