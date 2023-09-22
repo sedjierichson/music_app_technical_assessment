@@ -1,0 +1,31 @@
+name: Flutter CI
+
+on:
+  push:
+    branches:
+      - main  # Change this to your main branch name
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # You can change the runner OS as needed
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Flutter
+      uses: subosito/flutter-action@v4
+      with:
+        flutter-version: stable  # You can specify a Flutter version here
+
+    - name: Install dependencies
+      run: flutter pub get
+
+    - name: Build and test on Android
+      run: flutter test
+
+    - name: Build and test on iOS
+      run: flutter test
+
+    # Add more steps as needed, such as deploying to Firebase or other actions.
+
